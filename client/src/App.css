@@ -1,0 +1,35 @@
+header {
+  padding: 22px 0;
+  text-align: center;
+}
+
+header h1 {
+  font-family: "Playfair Display", Georgia;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  letter-spacing: 0.08em;
+  margin: 0;
+}
+
+footer {
+  padding: 18px 0;
+  text-align: center;
+  background: #fff;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  margin-top: 32px;
+}
+
+footer p {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.App > main {
+  flex: 1;
+}
