@@ -1,4 +1,4 @@
-import ProductCard from "../ProductCard";
+import ProductCard from "../ProductCard/ProductCard";
 import "./ProductList.css";
 
 export default function ProductList({ products, onProductClick }) {
