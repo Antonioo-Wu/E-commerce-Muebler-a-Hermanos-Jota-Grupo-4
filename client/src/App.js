@@ -5,12 +5,15 @@ import { fetchProducts } from "./services/api";
 import "./App.css";
 import Loader from "./components/Loader/Loader";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
+import NavBar from "./components/Navbar/NavBar";
+import Footer from "./components/Footer/Footer";
 
 export default function App() {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [cart, setCart] = useState([]);
 
   // Cargar productos desde el backend
   useEffect(() => {
@@ -43,9 +46,14 @@ export default function App() {
     setSelectedProduct(null);
   };
 
+  const handleAddToCard = (producto) => {
+    setCart((prev) => [...prev,producto]);
+    console.log("cart size =>", cart.length + 1);
+  };
+
   return (
     <div className="App">
-      {/* <Header/> */}
+      <NavBar cartCount={cart.length} />
 
       {loading && <Loader />}
       {error && <ErrorMessage message={error} />}
@@ -56,6 +64,7 @@ export default function App() {
             <ProductDetail
               product={selectedProduct}
               onBack={handleBackToList}
+              onAddToCart={handleAddToCard}
             />
           ) : (
             <ProductList
@@ -66,7 +75,7 @@ export default function App() {
         </>
       )}
 
-      {/* <Footer/> */}
+      <Footer /> 
     </div>
   );
 }

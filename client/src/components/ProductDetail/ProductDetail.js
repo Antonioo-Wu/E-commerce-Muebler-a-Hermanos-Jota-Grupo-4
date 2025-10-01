@@ -1,6 +1,6 @@
 import "./ProductDetail.css";
 
-export default function ProductDetail({ product, onBack }) {
+export default function ProductDetail({ product, onBack, onAddToCart }) {
   if (!product)
     return (
       <div className="product-detail-container">
@@ -45,7 +45,7 @@ export default function ProductDetail({ product, onBack }) {
           </tbody>
         </table>
 
-        <button className="add-to-cart">🛒 Añadir al carrito</button>
+        <button className="add-to-cart" onClick={() => onAddToCart(product)}>🛒 Añadir al carrito</button>
       </div>
     </div>
   );
