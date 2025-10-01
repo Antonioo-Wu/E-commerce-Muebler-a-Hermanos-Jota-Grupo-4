@@ -19,7 +19,7 @@
 
 .footer-col h4 {
   font-family: "Playfair Display", Georgia, serif;
-  color: var(--color-primary, #6b4f2a); /* fallback opcional */
+  color: var(--color-primary, #6b4f2a); 
   text-transform: uppercase;
   letter-spacing: 0.06em;
   font-size: 1rem;
@@ -77,6 +77,31 @@
   padding: 16px 0;
   text-align: center;
   border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.footer-brand-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-brand .brand-logo {
+  margin-bottom: 0; 
+}
+
+.footer-brand {
+  text-align: left;            
+}
+
+.footer-brand-head {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;       
+  gap: 12px;
+}
+
+.footer-inner > .footer-col:nth-child(2) {
+  text-align: left;    
 }
 
 /* Tablet (768px) */
@@ -138,4 +163,10 @@
   .footer-inner > .footer-col:not(:first-child) {
     padding-left: 40px;
   }
+}
+
+
+.site-footer .container {
+  max-width: 1100px;   
+  margin: 0 auto;   
 }

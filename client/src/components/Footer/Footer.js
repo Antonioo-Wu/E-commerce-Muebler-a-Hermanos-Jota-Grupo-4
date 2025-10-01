@@ -9,9 +9,10 @@ export default function Footer({ data = FooterData }) {
          <footer className="site-footer" id="contacto" aria-labelledby="footer-heading">
             <div className="container footer-inner">
                 <div className="footer-col footer-brand">
-                    <img className="brand-logo" src={data.brand.logo} alt={data.brand.logoAlt} />
-                     <h4 id="footer-heading">{data.brand.showroomTitle}</h4>
-
+                    <div className="footer-brand-head">
+                        <img className="brand-logo" src={data.brand.logo} alt={data.brand.logoAlt} />
+                        <h4 id="footer-heading">{data.brand.showroomTitle}</h4>
+                    </div>
                     <p> 
                         <strong>{data.location.headline}</strong>
                     </p>
