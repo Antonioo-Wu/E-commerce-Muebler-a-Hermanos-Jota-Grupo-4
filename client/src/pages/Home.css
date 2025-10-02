@@ -1,0 +1,83 @@
+/* Botón CTA */
+.home-page .btn-primary{
+  display:inline-block;
+  background: var(--color-accent, #8b6a3a);
+  color:#fff;
+  text-decoration:none;
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: .02em;
+  transition: background .2s ease, filter .15s ease;
+}
+.home-page .btn-primary:hover{ background: var(--color-primary, #6b4f2a); }
+
+
+/*  Hero*/
+.home-page .hero{
+  position: relative;
+  width: 100%;
+  height: 90vh;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; text-align:center;
+}
+
+.home-page .hero::before{
+  content:""; position:absolute; inset:0; background:rgba(0,0,0,.35);
+}
+
+.home-page .hero-overlay{ position:relative; z-index:1; max-width:800px; padding:0 16px; }
+.home-page .hero-text h1{
+  font-family:"Playfair Display", Georgia, serif;
+  font-size:clamp(2rem,5vw,3rem); margin-bottom:12px; color:#fff;
+}
+.home-page .hero-text p{ margin-bottom:20px; font-size:1.2rem; color:#f5f5f5; }
+
+/* Encabezado */
+.home-page .section-head{ margin:28px 0 16px; }
+.home-page .section-head h2{
+  font-family:"Playfair Display", Georgia, serif;
+  color: var(--color-primary, #6b4f2a);
+  font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+  letter-spacing:.02em;
+}
+
+/* Grid de destacados */
+.home-page .product-grid{
+  display:grid; grid-template-columns:1fr 1fr; gap:16px;
+}
+@media (min-width:768px){
+  .home-page .product-grid{ grid-template-columns: repeat(4, 1fr); }
+}
+
+/* Tarjeta de producto */
+.home-page .product-card{
+  background:#fff; border:1px solid rgba(0,0,0,.08);
+  border-radius:16px; overflow:hidden; display:flex; flex-direction:column;
+}
+.home-page .product-image-container img{
+  width:100%; aspect-ratio:4/3; object-fit:cover; display:block;
+}
+.home-page .product-info, .home-page .product-name{ padding:12px 14px; text-align: center;}
+.home-page .product-name{ font-size:2rem;  font-family: "Playfair Display", serif; color: var(--color-primary); }
+.home-page .detalle-button{ display: inline-block;margin-top: 10px;padding: 8px 12px;
+  background-color: var(--color-accent);color: #fff;text-align: center;
+  border-radius: 6px;font-weight: 500;font-family: "Inter", sans-serif;text-decoration: none;
+  transition: background 0.3s; width: 100%;
+}
+.home-page .product-footer {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px; 
+}
+
+.home-page .detalle-button:hover{ background:#e6e6e6; }
+
+/* CTA inferior */
+.destacados-cta{ text-align:center; margin-top:40px; }
+.destacados-cta .btn-primary{ padding:12px 28px; font-size:1rem; background:var(--color-accent)}

@@ -176,3 +176,32 @@
     padding: 10px 15px;
   }
 }
+
+.catalogo-page .product-info{
+  display: flex;
+  flex-direction: column;
+}
+
+
+.catalogo-page .product-footer{
+  margin-top: auto;             
+  display: flex;
+  flex-direction: column;
+  align-items: center;          
+  gap: 8px;                     
+}
+
+
+.catalogo-page .product-price{
+  margin: 0;                     
+  text-align: center;
+  width: auto;                 
+                                  
+}
+
+.catalogo-page .detalle-button{
+  margin: 0;
+  display: inline-block;        
+  text-align: center;
+  width: 100%;
+}

@@ -7,6 +7,7 @@ import Loader from "./components/Loader/Loader";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 import NavBar from "./components/Navbar/NavBar";
 import Footer from "./components/Footer/Footer";
+import Home from "./pages/Home";
 
 export default function App() {
   const [products, setProducts] = useState([]);
@@ -14,6 +15,8 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [cart, setCart] = useState([]);
+  const [view,setView] = useState("home"); 
+
 
   // Cargar productos desde el backend
   useEffect(() => {
@@ -39,32 +42,48 @@ export default function App() {
   // Manejar clic en producto para ver detalle
   const handleProductClick = (product) => {
     setSelectedProduct(product);
+    setView("catalog");
   };
 
   // Volver al catálogo
   const handleBackToList = () => {
     setSelectedProduct(null);
+    setView("catalog");
   };
 
-  const handleAddToCard = (producto) => {
+  const handleAddToCart = (producto) => {
     setCart((prev) => [...prev,producto]);
     console.log("cart size =>", cart.length + 1);
   };
 
+  const goHome = () => {setSelectedProduct(null); setView("home");};
+  const goToCatalog = () => {setSelectedProduct(null); setView("catalog");}
+
   return (
     <div className="App">
-      <NavBar cartCount={cart.length} />
+      <NavBar 
+        cartCount={cart.length} 
+        currentView={view}
+        onGoHome={goHome}
+        onGoCatalog={goToCatalog}
+      />
 
       {loading && <Loader />}
       {error && <ErrorMessage message={error} />}
 
       {!loading && !error && (
         <>
-          {selectedProduct ? (
+          {view === "home" ? (
+            <Home
+              products={products}
+              onVerCatalogo={goToCatalog}
+              onVerDetalle={handleProductClick}
+            />
+          ): selectedProduct ? (
             <ProductDetail
               product={selectedProduct}
               onBack={handleBackToList}
-              onAddToCart={handleAddToCard}
+              onAddToCart={handleAddToCart}
             />
           ) : (
             <ProductList
