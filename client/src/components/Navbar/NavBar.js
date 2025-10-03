@@ -1,7 +1,14 @@
 import  { useState } from "react";
 import "./NavBar.css"
 
-export default function NavBar({ cartCount = 0, logo= "/logo.svg", onCartClick }) {
+export default function NavBar({ 
+  cartCount = 0, 
+  logo= "/logo.svg", 
+  onCartClick,
+  currentView,
+  onGoHome,
+  onGoCatalog,
+}) {
   const [open, setOpen] = useState(false);
 
   const toggleMenu = () => setOpen(!open);
@@ -12,15 +19,36 @@ export default function NavBar({ cartCount = 0, logo= "/logo.svg", onCartClick }
   return (
     <header className="site-header">
       <div className="container header-inner">
-        <a href="/" className="brand" onClick={closeIfMobile}>
+        <a href="#" 
+          className="brand" 
+          onClick={(e) => {
+            e.preventDefault();
+            onGoHome?.();
+            closeIfMobile();
+          }}>
           <img className="brand-logo" src={logo} alt="Hermanos Jota" />
           <span className="brand-name"><strong>Hermanos Jota</strong></span>
         </a>
 
         <nav className={`main-nav ${open ? "active" : ""}`} aria-label="Navegación principal">
           <ul onClick={closeIfMobile}>
-            <li><a className="active" href="/">Inicio</a></li>
-            <li><a href="/productos">Productos</a></li>
+            <li> <a
+                href="#"
+                className={currentView === "home" ? "active" : ""}
+                onClick={(e) => { e.preventDefault(); onGoHome?.(); }}
+              >
+                Inicio
+              </a>
+            </li>
+            <li>  
+              <a
+                href="#"
+                className={currentView === "catalog" ? "active" : ""}
+                onClick={(e) => { e.preventDefault(); onGoCatalog?.(); }}
+              >
+                Productos
+              </a>
+            </li>
             <li><a href="/contacto">Contacto</a></li>
           </ul>
         </nav>
