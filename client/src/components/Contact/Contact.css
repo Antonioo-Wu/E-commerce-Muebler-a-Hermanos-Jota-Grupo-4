@@ -1,0 +1,232 @@
+:root {
+  --alabastro: #F5E6D3;
+  --siena: #A0522D;
+  --vera-oro: #D4A437;
+  --vera-oro-dark: #a0522d;
+  --texto: #333;
+  --savia: #87A96B;
+  --texto-suave: #666;
+  --borde: #ddd;
+  --error: #C47A6D;
+}
+
+.titulo-contacto {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 24px;
+  color: var(--siena);
+  margin: 24px auto;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.contacto-contenedor {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 20px auto;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,.1);
+}
+
+.contacto-izquierda {
+  width: 100%;
+  padding: 30px 20px;
+  position: relative;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.contacto-izquierda {
+  width: 100%;
+  padding: 30px 20px;
+  position: relative;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;      
+  background-position: center;  
+  background-repeat: no-repeat; 
+}
+
+.contacto-izquierda::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2));
+  z-index: 1;
+}
+
+.logo-centro {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 16px;
+}
+
+.logo-centro img {
+  width: 70px;
+  height: auto;
+}
+
+.texto-overlay {
+  position: relative;
+  z-index: 2;
+  font-family: "Playfair Display", Georgia, serif;
+  color: #fff;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+  font-size: 0.9rem;
+  line-height: 1.3;
+  text-align: center;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.texto-overlay p {
+  margin-bottom: 12px;
+}
+
+.contacto-derecha {
+  width: 100%;
+  padding: 20px;
+  background: #fff;
+}
+
+.contacto-derecha form {
+  display: flex;
+  flex-direction: column;
+}
+
+.contacto-derecha label {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.contacto-derecha input,
+.contacto-derecha textarea {
+  margin-top: 6px;
+  padding: 12px;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  font-size: 14px;
+  color: #444;
+  outline: none;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.contacto-derecha input:focus,
+.contacto-derecha textarea:focus {
+  border-color: var(--vera-oro);
+}
+
+.contacto-derecha textarea {
+  font-family: "Inter", sans-serif, "Playfair Display", Georgia;
+  resize: none;
+  min-height: 100px;
+}
+
+.contacto-derecha button {
+  font-family: inherit;
+  margin-top: 18px;
+  padding: 14px;
+  background: var(--vera-oro);
+  color: #fff;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+
+.contacto-derecha button:hover {
+  background: var(--vera-oro-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.15);
+}
+
+.error-msg {
+  color: var(--error);
+  font-size: 13px;
+  margin-top: 4px;
+  display: block;
+  font-weight: 500;
+}
+
+[aria-invalid="true"] {
+  border-color: var(--error);
+}
+
+.success-banner {
+  background-color: #e6f9e6;
+  color: #2e7d32;
+  border: 1.5px solid #2e7d32;
+  border-radius: 999px;
+  padding: 12px 20px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  text-align: center;
+  font-size: 14px;
+  opacity: 1;
+  transition: opacity 0.8 ease;
+}
+
+.success-banner.fade-out {
+  opacity: 0;
+}
+
+@media (min-width: 768px) {
+  .titulo-contacto {
+    font-size: 28px;
+    margin: 32px auto;
+  }
+
+  .logo-centro img {
+    width: 90px;
+  }
+
+  .texto-overlay {
+    font-size: 1rem;
+    line-height: 1.4;
+    max-width: 400px;
+  }
+
+  .contacto-derecha {
+    padding: 40px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .titulo-contacto {
+    font-size: 32px;
+  }
+
+  .contacto-contenedor {
+    flex-direction: row;
+    max-width: 1100px;
+    height: 550px;
+    margin: 40px auto;
+  }
+
+  .contacto-izquierda, 
+  .contacto-derecha {
+    flex: 1;
+    height: auto;
+  }
+
+  .logo-centro img {
+    width: 120px;
+  }
+
+  .texto-overlay {
+    font-size: 22px;
+  }
+}
