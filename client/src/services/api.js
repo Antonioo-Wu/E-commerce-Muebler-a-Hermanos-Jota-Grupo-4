@@ -1,15 +1,26 @@
-import productos from "./data";
-
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000';
 
 export async function fetchProducts() {
-  // const res = await fetch(`${API_URL}/api/productos`);
-  // if (!res.ok) {
-  //   const text = await res.text().catch(() => "");
-  //   throw new Error(text || `HTTP ${res.status}`);
-  // }
-  // return res.json();
-
-  await new Promise((resolve) => setTimeout(resolve, 600)); // simulacion de api
-  return productos;
+  try {
+    const res = await fetch(`${API_URL}/api/productos`); 
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    throw error; 
+  }
+}
+export async function fetchProductById(id) {
+  try {
+    const res = await fetch(`${API_URL}/api/productos/${id}`);
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+    return await res.json();
+  } catch (error) {
+    console.error(`Error fetching product ${id}:`, error);
+    throw error;
+  }
 }
