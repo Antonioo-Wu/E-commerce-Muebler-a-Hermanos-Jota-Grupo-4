@@ -9,7 +9,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 32px;
-  padding: 32px 0;
+  padding: 32px 16px;
 }
 
 .footer-col {
@@ -113,7 +113,7 @@
   .footer-inner {
     grid-template-columns: 1fr 1fr;
     gap: 40px;
-    padding: 40px 0;
+    padding: 40px 24px;
   }
 
   .footer-inner > .footer-col:not(:first-child) {
@@ -165,8 +165,10 @@
   }
 }
 
-
 .site-footer .container {
-  max-width: 1100px;   
-  margin: 0 auto;   
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
 }
