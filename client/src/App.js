@@ -8,6 +8,7 @@ import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 import NavBar from "./components/Navbar/NavBar";
 import Footer from "./components/Footer/Footer";
 import Home from "./pages/Home";
+import Contact from "./components/Contact/Contact";
 
 export default function App() {
   const [products, setProducts] = useState([]);
@@ -15,8 +16,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [cart, setCart] = useState([]);
-  const [view,setView] = useState("home"); 
-
+  const [view, setView] = useState("home");
 
   // Cargar productos desde el backend
   useEffect(() => {
@@ -35,7 +35,6 @@ export default function App() {
         setLoading(false);
       }
     };
-
     load();
   }, []);
 
@@ -52,20 +51,31 @@ export default function App() {
   };
 
   const handleAddToCart = (producto) => {
-    setCart((prev) => [...prev,producto]);
+    setCart((prev) => [...prev, producto]);
     console.log("cart size =>", cart.length + 1);
   };
 
-  const goHome = () => {setSelectedProduct(null); setView("home");};
-  const goToCatalog = () => {setSelectedProduct(null); setView("catalog");}
+  const goHome = () => {
+    setSelectedProduct(null);
+    setView("home");
+  };
+  const goToCatalog = () => {
+    setSelectedProduct(null);
+    setView("catalog");
+  };
+  const goToContact = () => {
+    setSelectedProduct(null);
+    setView("contact");
+  };
 
   return (
     <div className="App">
-      <NavBar 
-        cartCount={cart.length} 
+      <NavBar
+        cartCount={cart.length}
         currentView={view}
         onGoHome={goHome}
         onGoCatalog={goToCatalog}
+        onGoContact={goToContact}
       />
 
       {loading && <Loader />}
@@ -79,7 +89,9 @@ export default function App() {
               onVerCatalogo={goToCatalog}
               onVerDetalle={handleProductClick}
             />
-          ): selectedProduct ? (
+          ) : view === "contact" ? (
+            <Contact />
+          ) : selectedProduct ? (
             <ProductDetail
               product={selectedProduct}
               onBack={handleBackToList}
@@ -94,7 +106,8 @@ export default function App() {
         </>
       )}
 
-      <Footer /> 
+      <Footer />
     </div>
   );
 }
+
