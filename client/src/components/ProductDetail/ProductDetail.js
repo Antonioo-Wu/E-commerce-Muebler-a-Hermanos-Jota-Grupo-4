@@ -1,6 +1,25 @@
 import "./ProductDetail.css";
 
-export default function ProductDetail({ product, onBack, onAddToCart }) {
+export default function ProductDetail({ onAddToCart }) {
+  // datos de prueba hasta que se implemente lo del llamado a la api
+  const product = {
+    id: 1,
+    nombre: "Sofá Roma 3 cuerpos",
+    imagen: "https://via.placeholder.com/600x400?text=Sof%C3%A1+Roma",
+    precio: 45999,
+    descripcion:
+      "Sofá tapizado en tela resistente, 3 cuerpos, estructura de madera maciza.",
+    detalles: [
+      { label: "Material", value: "Tela poliéster" },
+      { label: "Color", value: "Gris claro" },
+      { label: "Ancho", value: "220 cm" },
+      { label: "Profundidad", value: "90 cm" },
+      { label: "Altura", value: "85 cm" },
+      { label: "Peso", value: "45 kg" },
+      { label: "Garantía", value: "12 meses" },
+    ],
+    stock: 5,
+  };
   if (!product)
     return (
       <div className="product-detail-container">
@@ -15,16 +34,6 @@ export default function ProductDetail({ product, onBack, onAddToCart }) {
       </div>
 
       <div className="product-detail-info">
-        <button
-          className="back-button"
-          onClick={() => {
-            if (onBack) onBack();
-            else window.history.back();
-          }}
-          aria-label="Volver al catálogo"
-        >
-          ← Volver al catálogo
-        </button>
         <h2 className="product-detail-name">{product.nombre}</h2>
 
         <p className="product-detail-price">
@@ -45,7 +54,9 @@ export default function ProductDetail({ product, onBack, onAddToCart }) {
           </tbody>
         </table>
 
-        <button className="add-to-cart" onClick={() => onAddToCart(product)}>🛒 Añadir al carrito</button>
+        <button className="add-to-cart" onClick={() => onAddToCart(product)}>
+          🛒 Añadir al carrito
+        </button>
       </div>
     </div>
   );

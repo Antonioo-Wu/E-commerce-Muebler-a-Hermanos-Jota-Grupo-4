@@ -1,14 +1,11 @@
 import { useState } from "react";
+import { Link } from "react-router";
 import "./NavBar.css";
 
 export default function NavBar({
   cartCount = 0,
   logo = "/logo.svg",
   onCartClick,
-  currentView,
-  onGoHome,
-  onGoCatalog,
-  onGoContact,
 }) {
   const [open, setOpen] = useState(false);
 
@@ -20,20 +17,12 @@ export default function NavBar({
   return (
     <header className="site-header">
       <div className="container header-inner">
-        <a
-          href="/home"
-          className="brand"
-          onClick={(e) => {
-            e.preventDefault();
-            onGoHome?.();
-            closeIfMobile();
-          }}
-        >
+        <Link to="/" className="brand" onClick={closeIfMobile}>
           <img className="brand-logo" src={logo} alt="Hermanos Jota" />
           <span className="brand-name">
             <strong>Hermanos Jota</strong>
           </span>
-        </a>
+        </Link>
 
         <nav
           className={`main-nav ${open ? "active" : ""}`}
@@ -41,41 +30,36 @@ export default function NavBar({
         >
           <ul onClick={closeIfMobile}>
             <li>
-              {" "}
-              <a
-                href="/home"
-                className={currentView === "home" ? "active" : ""}
-                onClick={(e) => {
-                  e.preventDefault();
-                  onGoHome?.();
-                }}
+              <Link
+                to="/"
+                className={({ isActive }) => (isActive ? "active" : "")}
               >
                 Inicio
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/productos"
-                className={currentView === "catalog" ? "active" : ""}
-                onClick={(e) => {
-                  e.preventDefault();
-                  onGoCatalog?.();
-                }}
+              <Link
+                to="/productos"
+                className={({ isActive }) => (isActive ? "active" : "")}
               >
                 Productos
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/contacto"
-                className={currentView === "contact" ? "active" : ""}
-                onClick={(e) => {
-                  e.preventDefault();
-                  onGoContact?.();
-                }}
+              <Link
+                to="/contacto"
+                className={({ isActive }) => (isActive ? "active" : "")}
               >
                 Contacto
-              </a>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/admin/crear-producto"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Admin
+              </Link>
             </li>
           </ul>
         </nav>

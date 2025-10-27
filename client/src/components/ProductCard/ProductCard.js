@@ -1,32 +1,33 @@
+import { Link } from "react-router";
 import "./ProductCard.css";
 
-export default function ProductCard({ product, onClick, showDescription= true }) {
+export default function ProductCard({
+  product,
+  showDescription = true,
+  rutaDetalle = null,
+}) {
   return (
-    <article className="product-card" onClick={onClick}>
+    <article className="product-card">
       <figure className="product-image-container">
         <img src={product.imagen} alt={product.nombre} />
       </figure>
       <div className="product-info">
         <h2 className="product-name">{product.nombre}</h2>
         {showDescription && (
-             <p className="product-description">{product.descripcion}</p>
+          <p className="product-description">{product.descripcion}</p>
         )}
-         <div className="product-footer">
+        <div className="product-footer">
           <p className="product-price">
             ${product.precio.toLocaleString("es-AR")}
           </p>
 
-          <a
+          <Link
             className="detalle-button"
-            href={`#product-${product.id}`}
-            onClick={(e) => {
-              e.preventDefault();
-              if (onClick) onClick();
-            }}
+            to={rutaDetalle ? rutaDetalle : `${product.id}`}
           >
             Ver Detalle
-          </a>
-          </div>
+          </Link>
+        </div>
       </div>
     </article>
   );
