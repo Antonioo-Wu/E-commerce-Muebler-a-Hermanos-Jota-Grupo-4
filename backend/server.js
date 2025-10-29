@@ -13,9 +13,6 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-// Conexion a la base de datos
-connectDB();
-
 // Middlewares
 app.use(logger);
 app.use(cors());
@@ -33,7 +30,16 @@ app.get('/', (req, res) => {
 app.use(notFound);
 app.use(errorHandler);
 
-// Iniciar el servidor
-app.listen(PORT, () => {
-    console.log(`Servidor corriendo en puerto: ${PORT}`);
-});
+// Iniciar el server despues de conectar a la BD
+const startServer = async () => {
+    try {
+        await connectDB();
+        app.listen(PORT, () => {
+            console.log(`Servidor corriendo en puerto: ${PORT}`);
+        });
+    } catch (error) {
+        console.error("No se pudo iniciar el servidor: ", error.message);
+        process.exit(1);
+    }
+};
+startServer();
