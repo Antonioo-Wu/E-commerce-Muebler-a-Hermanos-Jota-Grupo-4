@@ -1,113 +1,40 @@
-import { useState, useEffect } from "react";
-import ProductList from "./components/ProductList/ProductList";
-import ProductDetail from "./components/ProductDetail/ProductDetail";
-import { fetchProducts } from "./services/api";
+import { useState } from "react";
+import { Routes, Route } from "react-router";
 import "./App.css";
-import Loader from "./components/Loader/Loader";
-import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 import NavBar from "./components/Navbar/NavBar";
 import Footer from "./components/Footer/Footer";
-import Home from "./pages/Home";
 import Contact from "./components/Contact/Contact";
+import Productos from "./pages/Productos";
+import CreateProduct from "./pages/CreateProduct/CreateProduct";
+import Home from "./pages/Home/Home";
+import ProductDetail from "./components/ProductDetail/ProductDetail";
 
 export default function App() {
-  const [products, setProducts] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [cart, setCart] = useState([]);
-  const [view, setView] = useState("home");
-
-  // Cargar productos desde el backend
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const data = await fetchProducts();
-        if (!data || data.length === 0) {
-          setError("No se encontraron productos.");
-          setProducts([]);
-        } else {
-          setProducts(data);
-        }
-      } catch (err) {
-        setError(err.message || String(err));
-      } finally {
-        setLoading(false);
-      }
-    };
-    load();
-  }, []);
-
-  // Manejar clic en producto para ver detalle
-  const handleProductClick = (product) => {
-    setSelectedProduct(product);
-    setView("catalog");
-  };
-
-  // Volver al catálogo
-  const handleBackToList = () => {
-    setSelectedProduct(null);
-    setView("catalog");
-  };
 
   const handleAddToCart = (producto) => {
     setCart((prev) => [...prev, producto]);
-    console.log("cart size =>", cart.length + 1);
-  };
-
-  const goHome = () => {
-    setSelectedProduct(null);
-    setView("home");
-  };
-  const goToCatalog = () => {
-    setSelectedProduct(null);
-    setView("catalog");
-  };
-  const goToContact = () => {
-    setSelectedProduct(null);
-    setView("contact");
   };
 
   return (
     <div className="App">
-      <NavBar
-        cartCount={cart.length}
-        currentView={view}
-        onGoHome={goHome}
-        onGoCatalog={goToCatalog}
-        onGoContact={goToContact}
-      />
+      <NavBar cartCount={cart.length} />
 
-      {loading && <Loader />}
-      {error && <ErrorMessage message={error} />}
-
-      {!loading && !error && (
-        <>
-          {view === "home" ? (
-            <Home
-              products={products}
-              onVerCatalogo={goToCatalog}
-              onVerDetalle={handleProductClick}
-            />
-          ) : view === "contact" ? (
-            <Contact />
-          ) : selectedProduct ? (
-            <ProductDetail
-              product={selectedProduct}
-              onBack={handleBackToList}
-              onAddToCart={handleAddToCart}
-            />
-          ) : (
-            <ProductList
-              products={products}
-              onProductClick={handleProductClick}
-            />
-          )}
-        </>
-      )}
+      <main>
+        <Routes>
+          <Route path="*" element={<Home />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/productos" element={<Productos />} />
+          <Route
+            path="/productos/:id"
+            element={<ProductDetail onAddToCart={handleAddToCart} />}
+          />
+          <Route path="/contacto" element={<Contact />} />
+          <Route path="/admin/crear-producto" element={<CreateProduct />} />
+        </Routes>
+      </main>
 
       <Footer />
     </div>
   );
 }
-
