@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import "./Home.css";
 import { useEffect, useState } from "react";
