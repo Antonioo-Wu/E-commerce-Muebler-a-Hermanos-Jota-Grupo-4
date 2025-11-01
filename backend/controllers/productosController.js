@@ -11,12 +11,10 @@ const getProductos = async (req, res) => {
     });
     res.json(mapped);
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        message: "Error al obtener los productos",
-        error: error.message,
-      });
+    res.status(500).json({
+      message: "Error al obtener los productos",
+      error: error.message,
+    });
   }
 };
 
@@ -49,7 +47,11 @@ const createProducto = async (req, res) => {
     }
     let parsedDetalles = [];
     if (detalles) {
-      parsedDetalles = JSON.parse(detalles);
+      if (typeof detalles === "string") {
+        parsedDetalles = JSON.parse(detalles);
+      } else {
+        parsedDetalles = detalles;
+      }
     }
     const newProduct = new Product({
       nombre,
@@ -88,12 +90,10 @@ const updateProducto = async (req, res) => {
     obj.id = obj._id;
     res.json(obj);
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        message: "Error al actualizar el producto",
-        error: error.message,
-      });
+    res.status(500).json({
+      message: "Error al actualizar el producto",
+      error: error.message,
+    });
   }
 };
 
