@@ -1,11 +1,7 @@
 import "./ProductDetail.css";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import {
-  fetchProductById,
-  deleteProductById,
-  API_URL,
-} from "../../services/api";
+import { fetchProductById, deleteProductById } from "../../services/api";
 
 export default function ProductDetail({ onAddToCart }) {
   const { id } = useParams();
@@ -70,7 +66,7 @@ export default function ProductDetail({ onAddToCart }) {
   return (
     <div className="product-detail-container">
       <div className="product-detail-image">
-        <img src={`${API_URL}${product.imagen}`} alt={product.nombre} />
+        <img src={product.imagen} alt={product.nombre} />
       </div>
 
       <div className="product-detail-info">

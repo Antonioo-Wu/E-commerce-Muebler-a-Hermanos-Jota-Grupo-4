@@ -43,7 +43,7 @@ const createProducto = async (req, res) => {
       req.body;
     let imagen = "";
     if (req.file) {
-      imagen = `/uploads/${req.file.filename}`;
+      imagen = req.file.path; // URL de Cloudinary
     }
     let parsedDetalles = [];
     if (detalles) {

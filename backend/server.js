@@ -1,3 +1,7 @@
+const dotenv = require("dotenv");
+
+dotenv.config();
+
 const express = require("express");
 const cors = require("cors");
 const logger = require("./middlewares/logger");
@@ -5,9 +9,6 @@ const notFound = require("./middlewares/notFound");
 const errorHandler = require("./middlewares/errorHandler");
 const productosRouter = require("./routes/productRoutes");
 const connectDB = require("./config/db");
-const dotenv = require("dotenv");
-
-dotenv.config();
 
 // Configuración de la aplicación
 const app = express();

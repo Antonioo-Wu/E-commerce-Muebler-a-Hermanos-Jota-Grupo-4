@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { API_URL } from "../../services/api";
 import "./ProductCard.css";
 
 export default function ProductCard({
@@ -10,7 +9,7 @@ export default function ProductCard({
   return (
     <article className="product-card">
       <figure className="product-image-container">
-        <img src={`${API_URL}${product.imagen}`} alt={product.nombre} />
+        <img src={product.imagen} alt={product.nombre} />
       </figure>
       <div className="product-info">
         <h2 className="product-name">{product.nombre}</h2>
