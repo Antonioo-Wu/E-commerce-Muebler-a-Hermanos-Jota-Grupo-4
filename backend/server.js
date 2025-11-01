@@ -3,7 +3,7 @@ const cors = require('cors');
 const logger = require('./middlewares/logger');
 const notFound = require('./middlewares/notFound')
 const errorHandler = require('./middlewares/errorHandler');
-const productosRouter = require('./routes/productos');
+const productosRouter = require('./routes/productRoutes');
 const connectDB = require('./config/db');
 const dotenv = require('dotenv');
 
