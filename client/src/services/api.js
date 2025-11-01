@@ -24,3 +24,18 @@ export async function fetchProductById(id) {
     throw error;
   }
 }
+
+export async function deleteProductById(id) {
+  try {
+    const res = await fetch(`${API_URL}/api/productos/${id}`, {
+      method: "DELETE",
+    });
+    if (!res.ok) {
+      throw new Error(`Error al eliminar el producto (status ${res.status})`);
+    }
+    return await res.json();
+  } catch (error) {
+    console.error(`Error eliminando producto ${id}:`, error);
+    throw error;
+  }
+}
