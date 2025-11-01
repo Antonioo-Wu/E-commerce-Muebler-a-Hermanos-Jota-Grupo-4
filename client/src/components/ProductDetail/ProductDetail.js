@@ -1,38 +1,41 @@
 import "./ProductDetail.css";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { fetchProductById, deleteProductById } from "../../services/api";
+import {
+  fetchProductById,
+  deleteProductById,
+  API_URL,
+} from "../../services/api";
 
 export default function ProductDetail({ onAddToCart }) {
+  const { id } = useParams();
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-    const { id } = useParams();
-    const [product, setProduct] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-      async function loadProduct() {
-        try {
-          const data = await fetchProductById(id);
-          setProduct(data);
-        } catch (err) {
-          console.error("Error al cargar el producto:", err);
-          setError("No se pudo cargar el producto");
-        } finally {
-          setLoading(false);
-        }
+  useEffect(() => {
+    async function loadProduct() {
+      try {
+        const data = await fetchProductById(id);
+        setProduct(data);
+      } catch (err) {
+        console.error("Error al cargar el producto:", err);
+        setError("No se pudo cargar el producto");
+      } finally {
+        setLoading(false);
       }
+    }
 
-      loadProduct();
-    }, [id]);
-    
+    loadProduct();
+  }, [id]);
+
   if (loading)
-      return (
-        <div className="product-detail-container">
-          <p>Cargando producto...</p>
-        </div>
-      );
+    return (
+      <div className="product-detail-container">
+        <p>Cargando producto...</p>
+      </div>
+    );
 
   if (error)
     return (
@@ -41,7 +44,6 @@ export default function ProductDetail({ onAddToCart }) {
       </div>
     );
 
-
   if (!product)
     return (
       <div className="product-detail-container">
@@ -49,25 +51,26 @@ export default function ProductDetail({ onAddToCart }) {
       </div>
     );
 
-    const handleDelete = async () => {
-    const confirmed = window.confirm("¿Seguro que querés eliminar este producto?");
+  const handleDelete = async () => {
+    const confirmed = window.confirm(
+      "¿Seguro que querés eliminar este producto?"
+    );
     if (!confirmed) return;
 
     try {
       await deleteProductById(id);
       alert("Producto eliminado correctamente");
-      navigate("/productos"); 
+      navigate("/productos");
     } catch (err) {
       console.error("Error al eliminar producto:", err);
       alert("No se pudo eliminar el producto");
     }
   };
 
-
   return (
     <div className="product-detail-container">
       <div className="product-detail-image">
-        <img src={product.imagen} alt={product.nombre} />
+        <img src={`${API_URL}${product.imagen}`} alt={product.nombre} />
       </div>
 
       <div className="product-detail-info">

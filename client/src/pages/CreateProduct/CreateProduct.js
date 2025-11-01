@@ -8,7 +8,7 @@ export default function CreateProduct() {
   const [formData, setFormData] = useState({
     nombre: "",
     descripcion: "",
-    imagen: "",
+    imagen: null,
     precio: "",
     destacado: false,
     detalles: [{ label: "", value: "" }],
@@ -21,6 +21,8 @@ export default function CreateProduct() {
     const { name, type } = e.target;
     if (type === "checkbox") {
       setFormData((prev) => ({ ...prev, [name]: e.target.checked }));
+    } else if (type === "file") {
+      setFormData((prev) => ({ ...prev, [name]: e.target.files[0] }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: e.target.value }));
     }
@@ -53,8 +55,7 @@ export default function CreateProduct() {
       newErrors.descripcion = "La descripción es obligatoria.";
     if (!formData.precio || formData.precio <= 0)
       newErrors.precio = "El precio debe ser mayor a 0.";
-    if (formData.imagen && !/^https?:\/\/|^\/.*/.test(formData.imagen))
-      newErrors.imagen = "Debe ser una URL o ruta válida.";
+    if (!formData.imagen) newErrors.imagen = "Debe seleccionar una imagen.";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -66,10 +67,20 @@ export default function CreateProduct() {
     if (!validateForm()) return;
 
     try {
+      const formDataToSend = new FormData();
+      formDataToSend.append("nombre", formData.nombre);
+      formDataToSend.append("descripcion", formData.descripcion);
+      formDataToSend.append("precio", formData.precio);
+      formDataToSend.append("destacado", formData.destacado);
+      formDataToSend.append("stock", formData.stock || 0);
+      formDataToSend.append("detalles", JSON.stringify(formData.detalles));
+      if (formData.imagen) {
+        formDataToSend.append("imagen", formData.imagen);
+      }
+
       const response = await fetch("/api/productos", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: formDataToSend,
       });
 
       if (!response.ok) {
@@ -113,11 +124,11 @@ export default function CreateProduct() {
         </label>
 
         <label>
-          Imagen (URL o ruta):
+          Imagen:
           <input
-            type="text"
+            type="file"
             name="imagen"
-            value={formData.imagen}
+            accept="image/*"
             onChange={handleChange}
           />
           {errors.imagen && <span className="error">{errors.imagen}</span>}
