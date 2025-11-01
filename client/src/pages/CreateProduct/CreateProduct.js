@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { createProduct } from "../../services/api";
 import "./CreateProduct.css";
 
 export default function CreateProduct() {
@@ -78,17 +79,9 @@ export default function CreateProduct() {
         formDataToSend.append("imagen", formData.imagen);
       }
 
-      const response = await fetch("/api/productos", {
-        method: "POST",
-        body: formDataToSend,
-      });
-
-      if (!response.ok) {
-        throw new Error("Error al crear el producto");
-      }
+      await createProduct(formDataToSend);
 
       setSuccessMessage("Producto creado con éxito");
-
       setTimeout(() => navigate("/productos"), 1000);
     } catch (error) {
       console.error(error);

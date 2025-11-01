@@ -41,3 +41,19 @@ export async function deleteProductById(id) {
     throw error;
   }
 }
+
+export async function createProduct(formDataToSend) {
+  try {
+    const res = await fetch(`${API_URL}/api/productos`, {
+      method: "POST",
+      body: formDataToSend,
+    });
+    if (!res.ok) {
+      throw new Error(`Error al crear el producto (status ${res.status})`);
+    }
+    return await res.json();
+  } catch (error) {
+    console.error("Error creando producto:", error);
+    throw error;
+  }
+}
