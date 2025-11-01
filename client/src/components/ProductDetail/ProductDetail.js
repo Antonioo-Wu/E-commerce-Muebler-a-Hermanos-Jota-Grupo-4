@@ -1,7 +1,7 @@
 import "./ProductDetail.css";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { fetchProductById } from "../../services/api";
+import { useParams, useNavigate } from "react-router-dom";
+import { fetchProductById, deleteProductById } from "../../services/api";
 
 export default function ProductDetail({ onAddToCart }) {
 
@@ -9,6 +9,7 @@ export default function ProductDetail({ onAddToCart }) {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
       async function loadProduct() {
@@ -48,6 +49,21 @@ export default function ProductDetail({ onAddToCart }) {
       </div>
     );
 
+    const handleDelete = async () => {
+    const confirmed = window.confirm("¿Seguro que querés eliminar este producto?");
+    if (!confirmed) return;
+
+    try {
+      await deleteProductById(id);
+      alert("Producto eliminado correctamente");
+      navigate("/productos"); 
+    } catch (err) {
+      console.error("Error al eliminar producto:", err);
+      alert("No se pudo eliminar el producto");
+    }
+  };
+
+
   return (
     <div className="product-detail-container">
       <div className="product-detail-image">
@@ -77,6 +93,9 @@ export default function ProductDetail({ onAddToCart }) {
 
         <button className="add-to-cart" onClick={() => onAddToCart(product)}>
           🛒 Añadir al carrito
+        </button>
+        <button className="add-to-cart" onClick={handleDelete}>
+          🗑️ Eliminar producto
         </button>
       </div>
     </div>
