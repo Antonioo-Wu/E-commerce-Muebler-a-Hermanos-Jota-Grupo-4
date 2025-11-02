@@ -60,6 +60,58 @@ cd ../client
 npm install
 ```
 
+## 🔗 Sitios desplegados
+
+- Backend (API): https://e-commerce-muebler-a-hermanos-jota-grupo.onrender.com
+- Frontend (sitio): https://e-commerce-muebler-a-hermanos-jota-g4.netlify.app/
+
+## 🧩 Variables de entorno (configurar para ejecutar localmente)
+
+Este proyecto utiliza variables de entorno en el backend y en el frontend. A continuación hay instrucciones y ejemplos para configurar las variables necesarias.
+
+### Backend
+
+1. En la carpeta `backend` create un archivo llamado `.env` (no lo subas al repo).
+2. Variables recomendadas (ejemplo `.env`):
+
+```
+# Puerto opcional (por defecto 4000)
+PORT=4000
+
+# Cadena de conexión a MongoDB (reemplazar por tu URI local o de nube)
+MONGO_URI=mongodb://localhost:27017/hjdb
+
+# Cloudinary (si vas a usar subida de imágenes)
+CLOUDINARY_CLOUD_NAME=tu_cloud_name
+CLOUDINARY_API_KEY=tu_api_key
+CLOUDINARY_API_SECRET=tu_api_secret
+```
+
+Nota: Si no configuras `PORT`, el servidor usará 4000 por defecto.
+
+### Frontend (React)
+
+1. En la carpeta `client` puedes crear un archivo `.env` para definir la URL de la API usada por la app en desarrollo.
+
+Ejemplo `client/.env`:
+
+```
+REACT_APP_API_URL=http://localhost:4000
+```
+
+Notas:
+
+- La app cliente usa `process.env.REACT_APP_API_URL` y por defecto caerá a `http://localhost:4000` si la variable no está definida.
+
+## 📌 Resumen rápido
+
+- Sitios desplegados:
+  - Backend: https://e-commerce-muebler-a-hermanos-jota-grupo.onrender.com
+  - Frontend: https://e-commerce-muebler-a-hermanos-jota-g4.netlify.app/
+- Variables clave a configurar localmente:
+  - Backend: `MONGO_URI`, (opcional) `PORT`, `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`
+  - Frontend: `REACT_APP_API_URL`
+
 Iniciar la aplicación React:
 
 ```bash
