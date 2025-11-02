@@ -37,8 +37,8 @@ router.get("/:id", getProductoById);
 // Crear un nuevo producto
 router.post("/", upload.single("imagen"), createProducto);
 
-// Actualizar un producto existente
-router.put("/:id", updateProducto);
+// Actualizar un producto existente (acepta imagen opcional)
+router.put("/:id", upload.single("imagen"), updateProducto);
 
 // Eliminar un producto
 router.delete("/:id", deleteProducto);

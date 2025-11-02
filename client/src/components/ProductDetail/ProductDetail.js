@@ -62,7 +62,6 @@ export default function ProductDetail({ onAddToCart }) {
       alert("No se pudo eliminar el producto");
     }
   };
-
   return (
     <div className="product-detail-container">
       <div className="product-detail-image">
@@ -78,20 +77,27 @@ export default function ProductDetail({ onAddToCart }) {
 
         <p className="product-detail-description">{product.descripcion}</p>
 
-        <table className="product-detail-table">
-          <tbody>
-            {product.detalles &&
-              product.detalles.map((d, i) => (
+        {product.detalles && product.detalles.length > 1 && (
+          <table className="product-detail-table">
+            <tbody>
+              {product.detalles.map((d, i) => (
                 <tr key={i}>
                   <th>{d.label}</th>
                   <td>{d.value}</td>
                 </tr>
               ))}
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        )}
 
         <button className="add-to-cart" onClick={() => onAddToCart(product)}>
           🛒 Añadir al carrito
+        </button>
+        <button
+          className="add-to-cart"
+          onClick={() => navigate(`/admin/editar-producto/${id}`)}
+        >
+          ✏️ Editar producto
         </button>
         <button className="add-to-cart" onClick={handleDelete}>
           🗑️ Eliminar producto

@@ -6,6 +6,7 @@ import Footer from "./components/Footer/Footer";
 import Contact from "./components/Contact/Contact";
 import Productos from "./pages/Productos";
 import CreateProduct from "./pages/CreateProduct/CreateProduct";
+import EditProduct from "./pages/EditProduct/EditProduct";
 import Home from "./pages/Home/Home";
 import ProductDetail from "./components/ProductDetail/ProductDetail";
 
@@ -31,6 +32,7 @@ export default function App() {
           />
           <Route path="/contacto" element={<Contact />} />
           <Route path="/admin/crear-producto" element={<CreateProduct />} />
+          <Route path="/admin/editar-producto/:id" element={<EditProduct />} />
         </Routes>
       </main>
 

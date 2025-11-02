@@ -57,3 +57,19 @@ export async function createProduct(formDataToSend) {
     throw error;
   }
 }
+
+export async function updateProduct(id, formDataToSend) {
+  try {
+    const res = await fetch(`${API_URL}/api/productos/${id}`, {
+      method: "PUT",
+      body: formDataToSend,
+    });
+    if (!res.ok) {
+      throw new Error(`Error al actualizar el producto (status ${res.status})`);
+    }
+    return await res.json();
+  } catch (error) {
+    console.error(`Error actualizando producto ${id}:`, error);
+    throw error;
+  }
+}
