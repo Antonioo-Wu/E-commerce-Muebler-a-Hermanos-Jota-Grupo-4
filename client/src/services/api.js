@@ -73,3 +73,57 @@ export async function updateProduct(id, formDataToSend) {
     throw error;
   }
 }
+
+export async function loginUser(email, password) {
+  try {
+    const res = await fetch(`${API_URL}/api/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    if (!res.ok) {
+      throw new Error(`Error en login (status ${res.status})`);
+    }
+    return await res.json();
+  } catch (error) {
+    console.error("Error en login:", error);
+    throw error;
+  }
+}
+
+export async function registerUser(name, email, password) {
+  try {
+    const res = await fetch(`${API_URL}/api/auth/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password }),
+    });
+    if (!res.ok) {
+      throw new Error(`Error en registro (status ${res.status})`);
+    }
+    return await res.json();
+  } catch (error) {
+    console.error("Error en registro:", error);
+    throw error;
+  }
+}
+
+export async function fetchUserProfile() {
+  try {
+    const token = localStorage.getItem("token");
+    const res = await fetch(`${API_URL}/api/auth/perfil`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    if (!res.ok) {
+      throw new Error(`Error al obtener el perfil: ${res.status}`);
+    }
+    return await res.json();
+  } catch (error) {
+    console.error("Error al obtener el perfil del usuario:", error);
+    throw error;
+  }
+}

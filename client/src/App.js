@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 import NavBar from "./components/Navbar/NavBar";
 import Footer from "./components/Footer/Footer";
@@ -9,8 +9,13 @@ import CreateProduct from "./pages/CreateProduct/CreateProduct";
 import EditProduct from "./pages/EditProduct/EditProduct";
 import Home from "./pages/Home/Home";
 import ProductDetail from "./components/ProductDetail/ProductDetail";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import Login from "./pages/Login/Login";
+import Registro from "./pages/Registro/Registro";
+import Perfil from "./pages/Perfil/Perfil";
 
-export default function App() {
+const AppRoutes = () => {
+  const { isAuthenticated } = useAuth();
   const [cart, setCart] = useState([]);
 
   const handleAddToCart = (producto) => {
@@ -33,10 +38,27 @@ export default function App() {
           <Route path="/contacto" element={<Contact />} />
           <Route path="/admin/crear-producto" element={<CreateProduct />} />
           <Route path="/admin/editar-producto/:id" element={<EditProduct />} />
+          <Route
+            path="/login"
+            element={isAuthenticated ? <Navigate to="/" /> : <Login />}
+          />
+          <Route
+            path="/registro"
+            element={isAuthenticated ? <Navigate to="/" /> : <Registro />}
+          />
+          <Route path="/perfil" element={<Perfil />} />
         </Routes>
       </main>
 
       <Footer />
     </div>
+  );
+};
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppRoutes />
+    </AuthProvider>
   );
 }
