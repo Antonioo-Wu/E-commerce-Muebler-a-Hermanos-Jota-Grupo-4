@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 import "./NavBar.css";
 
 export default function NavBar({
@@ -8,10 +9,18 @@ export default function NavBar({
   onCartClick,
 }) {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const { isAuthenticated, logout } = useAuth();
 
   const toggleMenu = () => setOpen(!open);
   const closeIfMobile = () => {
     if (window.innerWidth < 1024) setOpen(false);
+  };
+
+  const handleLogout = () => {
+    logout();
+    closeIfMobile();
+    navigate("/login");
   };
 
   return (
@@ -56,11 +65,51 @@ export default function NavBar({
             <li>
               <Link
                 to="/admin/crear-producto"
+                id="admin-link"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
                 Admin
               </Link>
             </li>
+            {isAuthenticated ? (
+              <>
+                <li>
+                  <Link
+                    to="/perfil"
+                    id="perfil-link"
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                  >
+                    Perfil
+                  </Link>
+                </li>
+                <li>
+                  <button onClick={handleLogout} className="logout-button">
+                    Logout
+                  </button>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link
+                    to="/login"
+                    id="login-link"
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                  >
+                    Login
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/registro"
+                    id="registro-link"
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                  >
+                    Registro
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </nav>
 
