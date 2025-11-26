@@ -10,6 +10,7 @@ const errorHandler = require("./middlewares/errorHandler");
 const productosRouter = require("./routes/productRoutes");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 // Configuración de la aplicación
 const app = express();
@@ -19,6 +20,7 @@ const PORT = process.env.PORT || 4000;
 app.use(logger);
 app.use(cors());
 app.use(express.json());
+app.use("/api/usuario", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/uploads", express.static("uploads"));
 
