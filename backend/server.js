@@ -11,6 +11,8 @@ const productosRouter = require("./routes/productRoutes");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
+const authMiddleware = require("./middlewares/authMiddleware");
+const adminGuard = require("./middlewares/adminGuard");
 
 // Configuración de la aplicación
 const app = express();
