@@ -2,8 +2,9 @@ import "./ProductDetail.css";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchProductById, deleteProductById } from "../../services/api";
+import AddToCartButton from "../AddToCartButton/AddToCartButton";
 
-export default function ProductDetail({ onAddToCart }) {
+export default function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -90,9 +91,7 @@ export default function ProductDetail({ onAddToCart }) {
           </table>
         )}
 
-        <button className="add-to-cart" onClick={() => onAddToCart(product)}>
-          🛒 Añadir al carrito
-        </button>
+        <AddToCartButton product={product} />
         <button
           className="add-to-cart"
           onClick={() => navigate(`/admin/editar-producto/${id}`)}
