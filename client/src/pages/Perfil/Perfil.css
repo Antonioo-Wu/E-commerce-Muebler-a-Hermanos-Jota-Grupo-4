@@ -1,0 +1,52 @@
+/* ===== PERFIL ===== */
+
+.perfil-wrapper {
+  width: 100%;
+  max-width: 850px;
+  margin: 3rem auto;
+  background: #fff;
+  padding: 3rem 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.10);
+}
+
+/* ---- HEADER ---- */
+.perfil-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.perfil-header h2 {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.perfil-header p {
+  color: #444;
+  font-size: 1rem;
+}
+
+/* ---- SECCIONES ---- */
+.section {
+  margin-bottom: 2.5rem;
+}
+
+.section h3 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px solid var(--color-soft);
+}
+
+/* ---- INFORMACIÓN PERSONAL ---- */
+.personal-info p {
+  margin: 10px 0;
+  font-size: 1.05rem;
+}
+
+.personal-info strong {
+  color: var(--color-primary);
+}

@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { fetchUserProfile } from "../services/api";
+import { useEffect } from "react";
 
 const AuthContext = createContext();
 
@@ -81,14 +82,29 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("token");
   };
 
-  const fetchProfile = async () => {
+  //const fetchProfile = async () => {
+    //try {
+      //const data = await fetchUserProfile();
+     // setUser(data.user);
+    //} catch (error) {
+      //console.error("Error obteniendo el perfil del usuario:", error);
+    //}
+  //};
+
+   const fetchProfile = async () => {
     try {
       const data = await fetchUserProfile();
-      setUser(data.user);
+      setUser(data);
     } catch (error) {
       console.error("Error obteniendo el perfil del usuario:", error);
     }
   };
+
+  useEffect(() => {
+  if (token) {
+    fetchProfile();
+  }
+}, [token]);
 
   return (
     <AuthContext.Provider
