@@ -105,6 +105,16 @@
   transform: translateY(-2px);
 }
 
+#pedidos-link {
+  background: color-mix(in srgb, var(--color-soft) 20%, transparent);
+}
+
+#pedidos-link:hover,
+#pedidos-link.active {
+  background: var(--color-accent);
+  transform: translateY(-2px);
+}
+
 #registro-link {
   background: color-mix(in srgb, var(--color-soft) 20%, transparent);
 }
