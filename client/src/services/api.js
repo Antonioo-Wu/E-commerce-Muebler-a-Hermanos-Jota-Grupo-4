@@ -127,3 +127,43 @@ export async function fetchUserProfile() {
     throw error;
   }
 }
+
+export async function postOrder(order, token) {
+  try {
+    const res = await fetch(`${API_URL}/api/orders`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(order),
+    });
+    if (!res.ok) {
+      throw new Error(`Error creando pedido: ${res.status}`);
+    }
+    return await res.json();
+  } catch (error) {
+    console.error("Error en postOrder:", error);
+    throw error;
+  }
+}
+
+export async function getOrders(token) {
+  try {
+    const res = await fetch(`${API_URL}/api/orders`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    if (!res.ok) {
+      throw new Error(`Error obteniendo pedidos: ${res.status}`);
+    }
+    const data = await res.json();
+    return data; 
+  } catch (error) {
+    console.error("Error en getOrders:", error);
+    throw error;
+  }
+}

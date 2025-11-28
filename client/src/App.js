@@ -13,28 +13,22 @@ import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import Login from "./pages/Login/Login";
 import Registro from "./pages/Registro/Registro";
 import Perfil from "./pages/Perfil/Perfil";
+import { CartProvider } from "./contexts/CartContext";
+import MisPedidos from "./pages/MisPedidos/MisPedidos";
 
 const AppRoutes = () => {
   const { isAuthenticated } = useAuth();
-  const [cart, setCart] = useState([]);
-
-  const handleAddToCart = (producto) => {
-    setCart((prev) => [...prev, producto]);
-  };
 
   return (
     <div className="App">
-      <NavBar cartCount={cart.length} />
+      <NavBar />
 
       <main>
         <Routes>
           <Route path="*" element={<Home />} />
           <Route path="/" element={<Home />} />
           <Route path="/productos" element={<Productos />} />
-          <Route
-            path="/productos/:id"
-            element={<ProductDetail onAddToCart={handleAddToCart} />}
-          />
+          <Route path="/productos/:id" element={<ProductDetail />} />
           <Route path="/contacto" element={<Contact />} />
           <Route path="/admin/crear-producto" element={<CreateProduct />} />
           <Route path="/admin/editar-producto/:id" element={<EditProduct />} />
@@ -47,6 +41,7 @@ const AppRoutes = () => {
             element={isAuthenticated ? <Navigate to="/" /> : <Registro />}
           />
           <Route path="/perfil" element={<Perfil />} />
+          <Route path="/mis-pedidos" element={<MisPedidos />} />
         </Routes>
       </main>
 
@@ -58,7 +53,9 @@ const AppRoutes = () => {
 export default function App() {
   return (
     <AuthProvider>
-      <AppRoutes />
+      <CartProvider>
+        <AppRoutes />
+      </CartProvider>
     </AuthProvider>
   );
 }
