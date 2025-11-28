@@ -1,0 +1,198 @@
+:root {
+    font-family: "Inter", sans-serif, "Playfair Display", Georgia;
+
+}
+
+.pedidos-container {
+    margin: 0 auto;
+    padding: 20px;
+}
+
+
+.pedidos-titulo {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 22px;
+    font-family: "Playfair Display", serif;
+    text-align: center;
+}
+
+.pedido-card {
+    background: #fff;
+    border-radius: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    padding: 22px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+    margin-bottom: 26px;
+    transition: 0.2s ease;
+}
+
+.pedido-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.08);
+}
+
+.pedido-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 14px;
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+
+}
+
+.pedido-id,
+.pedido-fecha,
+.pedido-total,
+.pedido-estado {
+    font-size: 0.95rem;
+    color: var(--color-primary);
+}
+
+.pedido-estado {
+    padding: 6px 10px;
+    border-radius: 10px;
+    font-weight: 600;
+    justify-self: start;
+}
+
+.pedido-estado--enviado {
+    background: rgba(135, 169, 104, 0.2);
+    color: var(--color-secondary);
+}
+
+.pedido-estado--pendiente {
+    background: rgba(212, 164, 55, 0.2);
+    color: var(--color-accent);
+}
+
+.pedido-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 0;
+    margin: 0;
+}
+
+.pedido-item {
+    border-radius: 12px;
+    border: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    transition: 0.2s ease;
+}
+
+.pedido-item:hover {
+    background: #fff;
+}
+
+.pedido-item-img-wrapper {
+    width: 62px;
+    height: 62px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f3f3f3;
+}
+
+.pedido-item-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pedido-item-info {
+    flex: 1;
+}
+
+.pedido-item-nombre {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+.pedido-item-cantidad {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.pedido-item-precio {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.pedidos-cargando,
+.pedidos-vacio {
+    text-align: center;
+    margin-top: 40px;
+    color: var(--color-primary);
+    opacity: 0.7;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+    .pedidos-container {
+        width: 85%;
+    }
+
+    .pedido-header {
+        grid-template-columns: repeat(3, 1fr);
+        align-items: center;
+    }
+
+    .pedido-item {
+        padding: 16px;
+        gap: 18px;
+    }
+
+    .pedido-item-img-wrapper {
+        width: 70px;
+        height: 70px;
+    }
+
+    .pedido-item-nombre {
+        font-size: 1.05rem;
+    }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+    .pedidos-container {
+        width: 85%;
+    }
+
+    .pedido-card {
+        padding: 28px;
+        border-radius: 18px;
+    }
+
+    .pedido-header {
+        grid-template-columns: repeat(4, 1fr);
+        column-gap: 20px;
+        font-size: 1rem;
+    }
+
+    .pedido-item {
+        padding: 18px;
+        gap: 22px;
+    }
+
+    .pedido-item-img-wrapper {
+        width: 80px;
+        height: 80px;
+    }
+
+    .pedido-item-nombre {
+        font-size: 1.1rem;
+    }
+
+    .pedido-item-precio {
+        font-size: 1.1rem;
+    }
+}
