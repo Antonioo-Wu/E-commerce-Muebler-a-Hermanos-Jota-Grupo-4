@@ -3,6 +3,8 @@ const router = express.Router();
 const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const authMiddleware = require("../middlewares/authMiddleware");
+const adminGuard = require("../middlewares/adminGuard");
 const {
   getProductos,
   getProductoById,
@@ -28,19 +30,13 @@ const storage = new CloudinaryStorage({
 });
 const upload = multer({ storage: storage });
 
-// Obtener todos los productos
+// Rutas públicas - users
 router.get("/", getProductos);
-
-// Obtener un producto por id
 router.get("/:id", getProductoById);
 
-// Crear un nuevo producto
-router.post("/", upload.single("imagen"), createProducto);
-
-// Actualizar un producto existente (acepta imagen opcional)
-router.put("/:id", upload.single("imagen"), updateProducto);
-
-// Eliminar un producto
-router.delete("/:id", deleteProducto);
+// Rutas protegidas - admin
+router.post("/", authMiddleware, adminGuard, upload.single("imagen"), createProducto);
+router.put("/:id", authMiddleware, adminGuard, upload.single("imagen"), updateProducto);
+router.delete("/:id", authMiddleware, adminGuard, deleteProducto);
 
 module.exports = router;
