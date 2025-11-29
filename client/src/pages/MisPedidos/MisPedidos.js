@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getOrders } from "../../services/api";
 import "./MisPedidos.css";
 
 const MisPedidos = () => {
@@ -6,73 +7,19 @@ const MisPedidos = () => {
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
-    // Simulación de datos con imágenes
-    setTimeout(() => {
-      setPedidos([
-        {
-          _id: "abc123",
-          createdAt: "2025-11-27T15:30:00Z",
-          total: 700000,
-          estado: "Enviado",
-          items: [
-            {
-              productId: 1,
-              nombre: "Aparador Uspallata",
-              quantity: 1,
-              precio: 480000,
-              imagen: "/productos/aparador_uspallata.png",
-            },
-            {
-              productId: 3,
-              nombre: "Butaca Mendoza",
-              quantity: 1,
-              precio: 220000,
-              imagen: "/productos/butaca_mendoza.png",
-            },
-          ],
-        },
-        {
-          _id: "def456",
-          createdAt: "2025-11-20T12:00:00Z",
-          total: 390000,
-          estado: "Pendiente",
-          items: [
-            {
-              productId: 2,
-              nombre: "Biblioteca Recoleta",
-              quantity: 1,
-              precio: 390000,
-              imagen: "/productos/biblioteca_recoleta.png",
-            },
-          ],
-        },
-      ]);
-      setCargando(false);
-    }, 1000);
+    const fetchPedidos = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const data = await getOrders(token);
+        setPedidos(data);
+      } catch (error) {
+        console.error("Error fetching pedidos:", error);
+      } finally {
+        setCargando(false);
+      }
+    };
 
-    /*
-  const fetchPedidos = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`${API_URL}/api/orders`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!res.ok) throw new Error(`Error obteniendo pedidos: ${res.status}`);
-      const data = await res.json();
-      setPedidos(data); 
-    } catch (error) {
-      console.error("Error fetching pedidos:", error);
-    } finally {
-      setCargando(false);
-    }
-  };
-
-  fetchPedidos();
-  */
+    fetchPedidos();
   }, []);
 
   if (cargando) return <p className="pedidos-cargando">Cargando pedidos...</p>;
@@ -82,7 +29,6 @@ const MisPedidos = () => {
   return (
     <div className="pedidos-container">
       <h2 className="pedidos-titulo">Mis Pedidos</h2>
-
       {pedidos.map((pedido) => (
         <div key={pedido._id} className="pedido-card">
           <div className="pedido-header">
@@ -94,19 +40,13 @@ const MisPedidos = () => {
               {new Date(pedido.createdAt).toLocaleDateString()}
             </p>
             <p className="pedido-total">
-              <strong>Total:</strong> ${pedido.total}
-            </p>
-
-            <p
-              className={`pedido-estado pedido-estado--${pedido.estado.toLowerCase()}`}
-            >
-              {pedido.estado}
+              <strong>Total:</strong> ${pedido.total.toLocaleString("es-AR")}
             </p>
           </div>
 
           <ul className="pedido-items">
             {pedido.items.map((item) => (
-              <li key={item.productId} className="pedido-item">
+              <li key={item.producto || item.productId} className="pedido-item">
                 <div className="pedido-item-img-wrapper">
                   <img
                     className="pedido-item-img"
@@ -117,12 +57,20 @@ const MisPedidos = () => {
 
                 <div className="pedido-item-info">
                   <p className="pedido-item-nombre">{item.nombre}</p>
+
                   <p className="pedido-item-cantidad">
-                    Cantidad: {item.quantity}
+                    Cantidad: {item.cantidad}
+                  </p>
+
+                  <p className="pedido-item-precio-unitario">
+                    Precio unitario: ${item.precio.toLocaleString("es-AR")}
+                  </p>
+
+                  <p className="pedido-item-total">
+                    Total: $
+                    {(item.precio * item.cantidad).toLocaleString("es-AR")}
                   </p>
                 </div>
-
-                <p className="pedido-item-precio">${item.precio}</p>
               </li>
             ))}
           </ul>

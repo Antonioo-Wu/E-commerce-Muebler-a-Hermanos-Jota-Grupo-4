@@ -10,7 +10,7 @@ export default function NavBar({ logo = "/logo.svg" }) {
   const [showCart, setShowCart] = useState(false);
   const navigate = useNavigate();
   const { isAuthenticated, user, logout } = useAuth();
-  const { items, getItemCount } = useCart();
+  const { getItemCount } = useCart();
 
   const toggleMenu = () => setOpen(!open);
   const closeIfMobile = () => {
