@@ -142,7 +142,7 @@ export async function fetchUserProfile() {
 
 export async function postOrder(order, token) {
   try {
-    const res = await fetch(`${API_URL}/api/orders`, {
+    const res = await fetch(`${API_URL}/api/pedidos`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -150,6 +150,7 @@ export async function postOrder(order, token) {
       },
       body: JSON.stringify(order),
     });
+
     if (!res.ok) {
       throw new Error(`Error creando pedido: ${res.status}`);
     }
@@ -162,7 +163,7 @@ export async function postOrder(order, token) {
 
 export async function getOrders(token) {
   try {
-    const res = await fetch(`${API_URL}/api/orders`, {
+    const res = await fetch(`${API_URL}/api/pedidos/mis-pedidos`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -173,7 +174,7 @@ export async function getOrders(token) {
       throw new Error(`Error obteniendo pedidos: ${res.status}`);
     }
     const data = await res.json();
-    return data; 
+    return data.pedidos; 
   } catch (error) {
     console.error("Error en getOrders:", error);
     throw error;

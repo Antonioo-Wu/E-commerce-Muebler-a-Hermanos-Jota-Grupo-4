@@ -54,27 +54,25 @@ export const CartProvider = ({ children }) => {
 
   const checkout = async () => {
     if (!isAuthenticated) {
-      alert("Debes iniciar sesión para finalizar la compra");
-      return;
+      return "Debes iniciar sesión para finalizar la compra";
     }
 
     try {
       const orderData = {
         items: items.map((item) => ({
           productId: item._id,
-          quantity: item.quantity,
+          cantidad: item.quantity,
         })),
         total: getTotal(),
       };
 
       await postOrder(orderData, token);
-
       clearCart();
-      alert("Compra realizada con éxito");
+
+      return "Compra realizada con éxito";
     } catch (error) {
       console.error("Error en checkout:", error);
-      alert("Ocurrió un error al finalizar la compra");
-      return;
+      return "Ocurrió un error al finalizar la compra";
     }
   };
 

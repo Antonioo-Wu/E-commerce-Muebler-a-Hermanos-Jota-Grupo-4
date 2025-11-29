@@ -45,27 +45,9 @@
 
 .pedido-id,
 .pedido-fecha,
-.pedido-total,
-.pedido-estado {
+.pedido-total {
     font-size: 0.95rem;
     color: var(--color-primary);
-}
-
-.pedido-estado {
-    padding: 6px 10px;
-    border-radius: 10px;
-    font-weight: 600;
-    justify-self: start;
-}
-
-.pedido-estado--enviado {
-    background: rgba(135, 169, 104, 0.2);
-    color: var(--color-secondary);
-}
-
-.pedido-estado--pendiente {
-    background: rgba(212, 164, 55, 0.2);
-    color: var(--color-accent);
 }
 
 .pedido-items {
@@ -121,10 +103,23 @@
     color: #555;
 }
 
-.pedido-item-precio {
+.pedido-item-precios {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    min-width: 100px;
+}
+
+.pedido-item-precio-unitario {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.pedido-item-total {
     font-size: 1rem;
     font-weight: 700;
     color: var(--color-primary);
+    text-align: left;
 }
 
 .pedidos-cargando,
@@ -158,6 +153,10 @@
 
     .pedido-item-nombre {
         font-size: 1.05rem;
+    }
+
+    .pedido-item-total {
+        text-align: end;
     }
 }
 
@@ -194,5 +193,9 @@
 
     .pedido-item-precio {
         font-size: 1.1rem;
+    }
+
+    .pedido-item-total {
+        text-align: end;
     }
 }

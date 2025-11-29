@@ -1,11 +1,9 @@
-import { useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 import NavBar from "./components/Navbar/NavBar";
 import Footer from "./components/Footer/Footer";
 import Contact from "./components/Contact/Contact";
 import Productos from "./pages/Productos";
-import CreateProduct from "./pages/CreateProduct/CreateProduct";
 import EditProduct from "./pages/EditProduct/EditProduct";
 import Home from "./pages/Home/Home";
 import ProductDetail from "./components/ProductDetail/ProductDetail";

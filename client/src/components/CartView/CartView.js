@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useCart } from "../../contexts/CartContext";
 import {
   AiOutlineClose,
@@ -8,6 +9,17 @@ import "./CartView.css";
 
 const CartView = ({ onClose }) => {
   const { items, removeItem, clearCart, checkout, getTotal } = useCart();
+
+  const [msg, setMsg] = useState(null);
+
+  const handleCheckout = async () => {
+    const result = await checkout();
+    setMsg(result);
+
+    setTimeout(() => {
+      setMsg(null);
+    }, 3000);
+  };
 
   return (
     <div className="cart-dropdown">
@@ -23,7 +35,9 @@ const CartView = ({ onClose }) => {
         )}
       </div>
 
-      {items.length === 0 ? (
+      {msg ? (
+        <div className="cart-msg">{msg}</div>
+      ) : items.length === 0 ? (
         <p className="cart-vacio">Tu carrito está vacío 🛒</p>
       ) : (
         <>
@@ -68,7 +82,7 @@ const CartView = ({ onClose }) => {
           </div>
 
           <div className="cart-actions">
-            <button onClick={checkout} className="cart-checkout-btn">
+            <button onClick={handleCheckout} className="cart-checkout-btn">
               Finalizar Compra
             </button>
 
