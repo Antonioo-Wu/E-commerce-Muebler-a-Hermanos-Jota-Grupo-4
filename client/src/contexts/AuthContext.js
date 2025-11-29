@@ -66,19 +66,10 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("token");
   };
 
-  //const fetchProfile = async () => {
-    //try {
-      //const data = await fetchUserProfile();
-     // setUser(data.user);
-    //} catch (error) {
-      //console.error("Error obteniendo el perfil del usuario:", error);
-    //}
-  //};
-
-   const fetchProfile = async () => {
+  const fetchProfile = async () => {
     try {
       const data = await fetchUserProfile();
-      setUser(data);
+      setUser(data.user);
     } catch (error) {
       console.error("Error obteniendo el perfil del usuario:", error);
     }
