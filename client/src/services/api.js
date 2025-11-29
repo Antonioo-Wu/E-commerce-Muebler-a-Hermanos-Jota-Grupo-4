@@ -29,8 +29,12 @@ export async function fetchProductById(id) {
 
 export async function deleteProductById(id) {
   try {
+    const token = localStorage.getItem("token");
     const res = await fetch(`${API_URL}/api/productos/${id}`, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     });
     if (!res.ok) {
       throw new Error(`Error al eliminar el producto (status ${res.status})`);
@@ -44,8 +48,12 @@ export async function deleteProductById(id) {
 
 export async function createProduct(formDataToSend) {
   try {
+    const token = localStorage.getItem("token");
     const res = await fetch(`${API_URL}/api/productos`, {
       method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
       body: formDataToSend,
     });
     if (!res.ok) {
@@ -60,8 +68,12 @@ export async function createProduct(formDataToSend) {
 
 export async function updateProduct(id, formDataToSend) {
   try {
+    const token = localStorage.getItem("token");
     const res = await fetch(`${API_URL}/api/productos/${id}`, {
       method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
       body: formDataToSend,
     });
     if (!res.ok) {
@@ -124,6 +136,46 @@ export async function fetchUserProfile() {
     return await res.json();
   } catch (error) {
     console.error("Error al obtener el perfil del usuario:", error);
+    throw error;
+  }
+}
+
+export async function postOrder(order, token) {
+  try {
+    const res = await fetch(`${API_URL}/api/orders`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(order),
+    });
+    if (!res.ok) {
+      throw new Error(`Error creando pedido: ${res.status}`);
+    }
+    return await res.json();
+  } catch (error) {
+    console.error("Error en postOrder:", error);
+    throw error;
+  }
+}
+
+export async function getOrders(token) {
+  try {
+    const res = await fetch(`${API_URL}/api/orders`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    if (!res.ok) {
+      throw new Error(`Error obteniendo pedidos: ${res.status}`);
+    }
+    const data = await res.json();
+    return data; 
+  } catch (error) {
+    console.error("Error en getOrders:", error);
     throw error;
   }
 }

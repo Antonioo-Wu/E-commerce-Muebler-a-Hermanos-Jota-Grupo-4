@@ -11,6 +11,7 @@ const productosRouter = require("./routes/productRoutes");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
+const pedidoRoutes = require("./routes/pedidoRoutes");
 const authMiddleware = require("./middlewares/authMiddleware");
 const adminGuard = require("./middlewares/adminGuard");
 
@@ -24,6 +25,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/api/usuario", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/pedidos", pedidoRoutes);
 app.use("/uploads", express.static("uploads"));
 
 // Rutas

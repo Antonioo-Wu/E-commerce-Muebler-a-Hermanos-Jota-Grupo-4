@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./ProductCard.css";
+import AddToCartButton from "../AddToCartButton/AddToCartButton";
 
 export default function ProductCard({
   product,
@@ -21,12 +22,16 @@ export default function ProductCard({
             ${product.precio.toLocaleString("es-AR")}
           </p>
 
-          <Link
-            className="detalle-button"
-            to={rutaDetalle ? rutaDetalle : `${product.id}`}
-          >
-            Ver Detalle
-          </Link>
+          <div className="product-card-buttons">
+            <Link
+              className="detalle-button"
+              to={rutaDetalle ? rutaDetalle : `${product.id}`}
+            >
+              Ver Detalle
+            </Link>
+
+            <AddToCartButton product={product} />
+          </div>
         </div>
       </div>
     </article>

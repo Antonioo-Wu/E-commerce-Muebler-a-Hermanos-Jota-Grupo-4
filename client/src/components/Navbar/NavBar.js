@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import { useCart } from "../../contexts/CartContext";
+import CartView from "../CartView/CartView";
 import "./NavBar.css";
 
-export default function NavBar({
-  cartCount = 0,
-  logo = "/logo.svg",
-  onCartClick,
-}) {
+export default function NavBar({ logo = "/logo.svg" }) {
   const [open, setOpen] = useState(false);
+  const [showCart, setShowCart] = useState(false);
   const navigate = useNavigate();
   const { isAuthenticated, logout } = useAuth();
+  const { items, getItemCount } = useCart();
 
   const toggleMenu = () => setOpen(!open);
   const closeIfMobile = () => {
@@ -71,6 +71,7 @@ export default function NavBar({
                 Admin
               </Link>
             </li>
+
             {isAuthenticated ? (
               <>
                 <li>
@@ -80,6 +81,15 @@ export default function NavBar({
                     className={({ isActive }) => (isActive ? "active" : "")}
                   >
                     Perfil
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/mis-pedidos"
+                    id="pedidos-link"
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                  >
+                    Pedidos
                   </Link>
                 </li>
                 <li>
@@ -113,19 +123,27 @@ export default function NavBar({
           </ul>
         </nav>
 
-        <button
-          className="cart-button"
-          aria-label="Carrito"
-          onClick={onCartClick}
-          type="button"
-        >
-          <span className="cart-icon" aria-hidden="true">
-            🛒
-          </span>
-          <span id="cart-count" className="cart-count">
-            {cartCount}
-          </span>
-        </button>
+        <div className="cart-wrapper relative">
+          <button
+            className="cart-button"
+            aria-label="Carrito"
+            onClick={() => setShowCart((prev) => !prev)}
+            type="button"
+          >
+            <span className="cart-icon" aria-hidden="true">
+              🛒
+            </span>
+            <span id="cart-count" className="cart-count">
+              {getItemCount()}
+            </span>
+          </button>
+
+          {showCart && (
+            <div className="cart-dropdown">
+              <CartView onClose={() => setShowCart(false)} />
+            </div>
+          )}
+        </div>
 
         <button
           className={`menu-toggle ${open ? "active" : ""}`}

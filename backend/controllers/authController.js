@@ -5,7 +5,7 @@ const User = require("../models/user");
 
 const register = async (req, res) => {
     try {
-        const { nombre, email, password } = req.body;
+        const { nombre, email, password, role } = req.body;
 
         if (!nombre || !email || !password) {
             return res.status(400).json({ msg: "datos incompletos" });
@@ -14,15 +14,23 @@ const register = async (req, res) => {
         const existing = await User.findOne({ email });
         if (existing) return res.status(400).json({ msg: "email ya registrado" });
 
+        // Validar rol si se proporciona
+        const validRoles = ["user", "admin"];
+        const userRole = role && validRoles.includes(role) ? role : "user";
+
         const hashed = await bcrypt.hash(password, 10);
 
         await User.create({
             nombre,
             email,
-            password: hashed
+            password: hashed,
+            role: userRole
         });
 
-        return res.status(201).json({ msg: "usuario registrado" });
+        return res.status(201).json({ 
+            msg: "usuario registrado",
+            role: userRole
+        });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ msg: "error del servidor" });
@@ -60,4 +68,17 @@ const login = async (req, res) => {
     }
 };
 
-module.exports = { register, login };
+const getProfile = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).select("-password");
+        if (!user) {
+            return res.status(404).json({ msg: "Usuario no encontrado" });
+        }
+        res.json({ user });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: "Error del servidor" });
+    }
+};
+
+module.exports = { register, login, getProfile };
