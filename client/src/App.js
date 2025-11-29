@@ -15,6 +15,7 @@ import { CartProvider } from "./contexts/CartContext";
 import MisPedidos from "./pages/MisPedidos/MisPedidos";
 import ProtectedRouteAdmin from "./components/ProtectedRoute/ProtectedRouteAdmin";
 import CrearProducto from "./pages/CreateProduct/CreateProduct";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 const AppRoutes = () => {
   const { isAuthenticated } = useAuth();
@@ -38,7 +39,14 @@ const AppRoutes = () => {
               </ProtectedRouteAdmin>
             }
           />
-          <Route path="/admin/editar-producto/:id" element={<EditProduct />} />
+          <Route
+            path="/admin/editar-producto/:id"
+            element={
+              <ProtectedRouteAdmin>
+                <EditProduct />
+              </ProtectedRouteAdmin>
+            }
+          />
           <Route
             path="/login"
             element={isAuthenticated ? <Navigate to="/" /> : <Login />}
@@ -47,8 +55,22 @@ const AppRoutes = () => {
             path="/registro"
             element={isAuthenticated ? <Navigate to="/" /> : <Registro />}
           />
-          <Route path="/perfil" element={<Perfil />} />
-          <Route path="/mis-pedidos" element={<MisPedidos />} />
+          <Route
+            path="/perfil"
+            element={
+              <ProtectedRoute>
+                <Perfil />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/mis-pedidos"
+            element={
+              <ProtectedRoute>
+                <MisPedidos />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </main>
 
