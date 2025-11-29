@@ -9,7 +9,7 @@ export default function NavBar({ logo = "/logo.svg" }) {
   const [open, setOpen] = useState(false);
   const [showCart, setShowCart] = useState(false);
   const navigate = useNavigate();
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, user, logout } = useAuth();
   const { items, getItemCount } = useCart();
 
   const toggleMenu = () => setOpen(!open);
@@ -62,27 +62,20 @@ export default function NavBar({ logo = "/logo.svg" }) {
                 Contacto
               </Link>
             </li>
-            <li>
-              <Link
-                to="/admin/crear-producto"
-                id="admin-link"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                Admin
-              </Link>
-            </li>
-
+            {user?.role === "admin" && (
+              <li>
+                <Link
+                  to="/admin/crear-producto"
+                  id="admin-link"
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  Admin
+                </Link>
+              </li>
+            )}
+            
             {isAuthenticated ? (
               <>
-                <li>
-                  <Link
-                    to="/perfil"
-                    id="perfil-link"
-                    className={({ isActive }) => (isActive ? "active" : "")}
-                  >
-                    Perfil
-                  </Link>
-                </li>
                 <li>
                   <Link
                     to="/mis-pedidos"
@@ -144,6 +137,15 @@ export default function NavBar({ logo = "/logo.svg" }) {
             </div>
           )}
         </div>
+
+        {isAuthenticated && (
+          <div className="navbar-user-area">
+            <Link to="/perfil" className="navbar-user-link">
+              <img src="/user-icon.png" alt="user" className="navbar-user-icon" />
+              <span className="navbar-user-name">{user?.nombre}</span>
+            </Link>
+          </div>
+        )}
 
         <button
           className={`menu-toggle ${open ? "active" : ""}`}

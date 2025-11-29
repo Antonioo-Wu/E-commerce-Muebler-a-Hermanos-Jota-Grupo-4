@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { fetchUserProfile } from "../services/api";
+import { useEffect } from "react";
 
 const AuthContext = createContext();
 
@@ -73,6 +74,12 @@ export const AuthProvider = ({ children }) => {
       console.error("Error obteniendo el perfil del usuario:", error);
     }
   };
+
+  useEffect(() => {
+  if (token) {
+    fetchProfile();
+  }
+}, [token]);
 
   return (
     <AuthContext.Provider
