@@ -29,8 +29,12 @@ export async function fetchProductById(id) {
 
 export async function deleteProductById(id) {
   try {
+    const token = localStorage.getItem("token");
     const res = await fetch(`${API_URL}/api/productos/${id}`, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     });
     if (!res.ok) {
       throw new Error(`Error al eliminar el producto (status ${res.status})`);
@@ -44,8 +48,12 @@ export async function deleteProductById(id) {
 
 export async function createProduct(formDataToSend) {
   try {
+    const token = localStorage.getItem("token");
     const res = await fetch(`${API_URL}/api/productos`, {
       method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
       body: formDataToSend,
     });
     if (!res.ok) {
@@ -60,8 +68,12 @@ export async function createProduct(formDataToSend) {
 
 export async function updateProduct(id, formDataToSend) {
   try {
+    const token = localStorage.getItem("token");
     const res = await fetch(`${API_URL}/api/productos/${id}`, {
       method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
       body: formDataToSend,
     });
     if (!res.ok) {

@@ -18,26 +18,20 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      // Implementación de prueba: simular login exitoso
-      const fakeToken = "fake-jwt-token-" + Date.now();
-      setToken(fakeToken);
-      localStorage.setItem("token", fakeToken);
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        const errorMsg = data.msg || "Error en el Login";
+        throw new Error(errorMsg);
+      }
+      setToken(data.token);
+      localStorage.setItem("token", data.token);
       setIsAuthenticated(true);
-      setUser({ name: "Usuario Prueba", email });
-
-      // Implementación real comentada:
-      // const response = await fetch(`${API_URL}/api/auth/login`, {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ email, password }),
-      // });
-      // if (!response.ok) throw new Error('Error en el Login');
-      // const data = await response.json();
-      // setToken(data.token);
-      // localStorage.setItem('token', data.token);
-      // setIsAuthenticated(true);
-      // await fetchProfile();
-
+      await fetchProfile();
       return { success: true };
     } catch (error) {
       console.error("Login error:", error);
@@ -47,27 +41,17 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (name, email, password) => {
     try {
-      // Implementación de prueba: simular registro exitoso
-      const fakeToken = "fake-jwt-token-" + Date.now();
-      setToken(fakeToken);
-      localStorage.setItem("token", fakeToken);
-      setIsAuthenticated(true);
-      setUser({ name, email });
-
-      // Implementación real comentada:
-      // const response = await fetch(`${API_URL}/api/auth/register`, {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ name, email, password }),
-      // });
-      // if (!response.ok) throw new Error('Error en el registro');
-      // const data = await response.json();
-      // setToken(data.token);
-      // localStorage.setItem('token', data.token);
-      // setIsAuthenticated(true);
-      // await fetchProfile();
-
-      return { success: true };
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/registro`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nombre: name, email, password }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        const errorMsg = data.msg || "Error en el registro";
+        throw new Error(errorMsg);
+      }
+      return { success: true, message: data.msg || "Registro exitoso. Inicie sesión." };
     } catch (error) {
       console.error("Register error:", error);
       return { success: false, error: error.message };

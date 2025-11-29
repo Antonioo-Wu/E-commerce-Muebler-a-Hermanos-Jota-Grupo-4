@@ -68,4 +68,17 @@ const login = async (req, res) => {
     }
 };
 
-module.exports = { register, login };
+const getProfile = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).select("-password");
+        if (!user) {
+            return res.status(404).json({ msg: "Usuario no encontrado" });
+        }
+        res.json({ user });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: "Error del servidor" });
+    }
+};
+
+module.exports = { register, login, getProfile };

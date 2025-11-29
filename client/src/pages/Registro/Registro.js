@@ -16,7 +16,7 @@ const Registro = () => {
     setError("");
     const result = await register(name, email, password);
     if (result.success) {
-      navigate("/"); // Redirigir a home
+      navigate("/login"); // Redirigir al login
     } else {
       setError(result.error || "Error en registro");
     }
