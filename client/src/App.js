@@ -15,6 +15,8 @@ import Registro from "./pages/Registro/Registro";
 import Perfil from "./pages/Perfil/Perfil";
 import { CartProvider } from "./contexts/CartContext";
 import MisPedidos from "./pages/MisPedidos/MisPedidos";
+import ProtectedRouteAdmin from "./components/ProtectedRoute/ProtectedRouteAdmin";
+import CrearProducto from "./pages/CreateProduct/CreateProduct";
 
 const AppRoutes = () => {
   const { isAuthenticated } = useAuth();
@@ -30,7 +32,14 @@ const AppRoutes = () => {
           <Route path="/productos" element={<Productos />} />
           <Route path="/productos/:id" element={<ProductDetail />} />
           <Route path="/contacto" element={<Contact />} />
-          <Route path="/admin/crear-producto" element={<CreateProduct />} />
+          <Route
+            path="/admin/crear-producto"
+            element={
+              <ProtectedRouteAdmin>
+                <CrearProducto />
+              </ProtectedRouteAdmin>
+            }
+          />
           <Route path="/admin/editar-producto/:id" element={<EditProduct />} />
           <Route
             path="/login"
