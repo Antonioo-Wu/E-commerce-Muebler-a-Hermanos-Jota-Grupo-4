@@ -29,8 +29,12 @@ export async function fetchProductById(id) {
 
 export async function deleteProductById(id) {
   try {
+    const token = localStorage.getItem("token");
     const res = await fetch(`${API_URL}/api/productos/${id}`, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     });
     if (!res.ok) {
       throw new Error(`Error al eliminar el producto (status ${res.status})`);
@@ -44,8 +48,12 @@ export async function deleteProductById(id) {
 
 export async function createProduct(formDataToSend) {
   try {
+    const token = localStorage.getItem("token");
     const res = await fetch(`${API_URL}/api/productos`, {
       method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
       body: formDataToSend,
     });
     if (!res.ok) {
@@ -60,8 +68,12 @@ export async function createProduct(formDataToSend) {
 
 export async function updateProduct(id, formDataToSend) {
   try {
+    const token = localStorage.getItem("token");
     const res = await fetch(`${API_URL}/api/productos/${id}`, {
       method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
       body: formDataToSend,
     });
     if (!res.ok) {
@@ -70,6 +82,101 @@ export async function updateProduct(id, formDataToSend) {
     return await res.json();
   } catch (error) {
     console.error(`Error actualizando producto ${id}:`, error);
+    throw error;
+  }
+}
+
+export async function loginUser(email, password) {
+  try {
+    const res = await fetch(`${API_URL}/api/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    if (!res.ok) {
+      throw new Error(`Error en login (status ${res.status})`);
+    }
+    return await res.json();
+  } catch (error) {
+    console.error("Error en login:", error);
+    throw error;
+  }
+}
+
+export async function registerUser(name, email, password) {
+  try {
+    const res = await fetch(`${API_URL}/api/auth/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password }),
+    });
+    if (!res.ok) {
+      throw new Error(`Error en registro (status ${res.status})`);
+    }
+    return await res.json();
+  } catch (error) {
+    console.error("Error en registro:", error);
+    throw error;
+  }
+}
+
+export async function fetchUserProfile() {
+  try {
+    const token = localStorage.getItem("token");
+    const res = await fetch(`${API_URL}/api/auth/perfil`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    if (!res.ok) {
+      throw new Error(`Error al obtener el perfil: ${res.status}`);
+    }
+    return await res.json();
+  } catch (error) {
+    console.error("Error al obtener el perfil del usuario:", error);
+    throw error;
+  }
+}
+
+export async function postOrder(order, token) {
+  try {
+    const res = await fetch(`${API_URL}/api/pedidos`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(order),
+    });
+
+    if (!res.ok) {
+      throw new Error(`Error creando pedido: ${res.status}`);
+    }
+    return await res.json();
+  } catch (error) {
+    console.error("Error en postOrder:", error);
+    throw error;
+  }
+}
+
+export async function getOrders(token) {
+  try {
+    const res = await fetch(`${API_URL}/api/pedidos/mis-pedidos`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    if (!res.ok) {
+      throw new Error(`Error obteniendo pedidos: ${res.status}`);
+    }
+    const data = await res.json();
+    return data.pedidos; 
+  } catch (error) {
+    console.error("Error en getOrders:", error);
     throw error;
   }
 }

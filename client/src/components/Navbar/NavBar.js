@@ -1,17 +1,26 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
+import { useCart } from "../../contexts/CartContext";
+import CartView from "../CartView/CartView";
 import "./NavBar.css";
 
-export default function NavBar({
-  cartCount = 0,
-  logo = "/logo.svg",
-  onCartClick,
-}) {
+export default function NavBar({ logo = "/logo.svg" }) {
   const [open, setOpen] = useState(false);
+  const [showCart, setShowCart] = useState(false);
+  const navigate = useNavigate();
+  const { isAuthenticated, user, logout } = useAuth();
+  const { getItemCount } = useCart();
 
   const toggleMenu = () => setOpen(!open);
   const closeIfMobile = () => {
     if (window.innerWidth < 1024) setOpen(false);
+  };
+
+  const handleLogout = () => {
+    logout();
+    closeIfMobile();
+    navigate("/login");
   };
 
   return (
@@ -53,30 +62,90 @@ export default function NavBar({
                 Contacto
               </Link>
             </li>
-            <li>
-              <Link
-                to="/admin/crear-producto"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                Admin
-              </Link>
-            </li>
+            {user?.role === "admin" && (
+              <li>
+                <Link
+                  to="/admin/crear-producto"
+                  id="admin-link"
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  Admin
+                </Link>
+              </li>
+            )}
+            
+            {isAuthenticated ? (
+              <>
+                <li>
+                  <Link
+                    to="/mis-pedidos"
+                    id="pedidos-link"
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                  >
+                    Pedidos
+                  </Link>
+                </li>
+                <li>
+                  <button onClick={handleLogout} className="logout-button">
+                    Logout
+                  </button>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link
+                    to="/login"
+                    id="login-link"
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                  >
+                    Login
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/registro"
+                    id="registro-link"
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                  >
+                    Registro
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </nav>
 
-        <button
-          className="cart-button"
-          aria-label="Carrito"
-          onClick={onCartClick}
-          type="button"
-        >
-          <span className="cart-icon" aria-hidden="true">
-            🛒
-          </span>
-          <span id="cart-count" className="cart-count">
-            {cartCount}
-          </span>
-        </button>
+        <div className="cart-wrapper relative">
+          <button
+            className="cart-button"
+            aria-label="Carrito"
+            onClick={() => setShowCart((prev) => !prev)}
+            type="button"
+          >
+            <span className="cart-icon" aria-hidden="true">
+              🛒
+            </span>
+            <span id="cart-count" className="cart-count">
+              {getItemCount()}
+            </span>
+          </button>
+
+          {showCart && (
+            <div className="cart-dropdown">
+              <CartView onClose={() => setShowCart(false)} />
+            </div>
+          )}
+        </div>
+
+        {isAuthenticated && (
+          <div className="navbar-user-area">
+            <Link to="/perfil" className="navbar-user-link">
+              <img src="/user-icon.png" alt="user" className="navbar-user-icon" />
+              <span className="navbar-user-name">{user?.nombre}</span>
+            </Link>
+          </div>
+        )}
 
         <button
           className={`menu-toggle ${open ? "active" : ""}`}

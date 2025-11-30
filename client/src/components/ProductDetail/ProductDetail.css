@@ -76,26 +76,6 @@
   text-align: left;
 }
 
-.add-to-cart {
-  display: block;
-  width: 100%;
-  margin: 20px auto 0;
-  background-color: var(--color-primary);
-  padding: 10px 25px;
-  color: white;
-  text-align: center;
-  border-radius: 6px;
-  font-weight: 500;
-  font-family: "Inter", sans-serif;
-  border: none;
-  transition: background-color 0.3s ease;
-  cursor: pointer;
-}
-
-.add-to-cart:hover {
-  background-color: var(--color-soft);
-}
-
 /* Table styling copied from /catalogo/product.css */
 .product-detail-table {
   width: 100%;
@@ -142,10 +122,6 @@
   .product-detail-price {
     font-size: 1.6rem;
   }
-
-  .add-to-cart {
-    width: 50%;
-  }
 }
 
 @media (min-width: 1025px) {
@@ -168,9 +144,5 @@
 
   .product-detail-info {
     padding: 60px 0 60px 50px;
-  }
-
-  .add-to-cart {
-    width: auto;
   }
 }

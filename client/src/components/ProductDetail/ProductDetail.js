@@ -2,13 +2,18 @@ import "./ProductDetail.css";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchProductById, deleteProductById } from "../../services/api";
+import AddToCartButton from "../AddToCartButton/AddToCartButton";
+import { useAuth } from "../../contexts/AuthContext";
+import Modal from "../Modal/Modal";
 
-export default function ProductDetail({ onAddToCart }) {
+export default function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const [modal, setModal] = useState({ show: false, title: '', message: '', onConfirm: null });
 
   useEffect(() => {
     async function loadProduct() {
@@ -47,21 +52,45 @@ export default function ProductDetail({ onAddToCart }) {
       </div>
     );
 
-  const handleDelete = async () => {
-    const confirmed = window.confirm(
-      "¿Seguro que querés eliminar este producto?"
-    );
-    if (!confirmed) return;
+  const handleDelete = () => {
+    setModal({
+      show: true,
+      title: 'Confirmar eliminación',
+      message: '¿Seguro que querés eliminar este producto?',
+      onConfirm: confirmDelete
+    });
+  };
 
+  const confirmDelete = async () => {
+    setModal({ show: false });
     try {
       await deleteProductById(id);
-      alert("Producto eliminado correctamente");
-      navigate("/productos");
+      setModal({
+        show: true,
+        title: 'Éxito',
+        message: 'Producto eliminado correctamente',
+        onConfirm: null
+      });
     } catch (err) {
       console.error("Error al eliminar producto:", err);
-      alert("No se pudo eliminar el producto");
+      setModal({
+        show: true,
+        title: 'Error',
+        message: 'No se pudo eliminar el producto',
+        onConfirm: null
+      });
     }
   };
+
+  const closeModal = () => {
+    setModal({ show: false, title: '', message: '', onConfirm: null });
+    if (modal.title === 'Éxito') {
+      navigate("/productos");
+    }
+  };
+
+  const isAdmin = user && user.role === 'admin';
+
   return (
     <div className="product-detail-container">
       <div className="product-detail-image">
@@ -90,19 +119,28 @@ export default function ProductDetail({ onAddToCart }) {
           </table>
         )}
 
-        <button className="add-to-cart" onClick={() => onAddToCart(product)}>
-          🛒 Añadir al carrito
-        </button>
-        <button
-          className="add-to-cart"
-          onClick={() => navigate(`/admin/editar-producto/${id}`)}
-        >
-          ✏️ Editar producto
-        </button>
-        <button className="add-to-cart" onClick={handleDelete}>
-          🗑️ Eliminar producto
-        </button>
+        <AddToCartButton product={product} />
+        {isAdmin && (
+          <>
+            <button
+              className="add-to-cart"
+              onClick={() => navigate(`/admin/editar-producto/${id}`)}
+            >
+              ✏️ Editar producto
+            </button>
+            <button className="add-to-cart" onClick={handleDelete}>
+              🗑️ Eliminar producto
+            </button>
+          </>
+        )}
       </div>
+      <Modal
+        show={modal.show}
+        onClose={closeModal}
+        title={modal.title}
+        message={modal.message}
+        onConfirm={modal.onConfirm}
+      />
     </div>
   );
 }

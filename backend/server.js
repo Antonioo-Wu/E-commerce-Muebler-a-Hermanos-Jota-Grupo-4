@@ -9,6 +9,11 @@ const notFound = require("./middlewares/notFound");
 const errorHandler = require("./middlewares/errorHandler");
 const productosRouter = require("./routes/productRoutes");
 const connectDB = require("./config/db");
+const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
+const pedidoRoutes = require("./routes/pedidoRoutes");
+const authMiddleware = require("./middlewares/authMiddleware");
+const adminGuard = require("./middlewares/adminGuard");
 
 // Configuración de la aplicación
 const app = express();
@@ -18,6 +23,9 @@ const PORT = process.env.PORT || 4000;
 app.use(logger);
 app.use(cors());
 app.use(express.json());
+app.use("/api/usuario", userRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/pedidos", pedidoRoutes);
 app.use("/uploads", express.static("uploads"));
 
 // Rutas
